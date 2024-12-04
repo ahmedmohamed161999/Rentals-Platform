@@ -3,6 +3,10 @@ import { createSlice } from "@reduxjs/toolkit"
 const initialState = {
   user: null,
   token: null,
+  tripList: [],
+  wishList: [],
+  propertyList: [],
+  reservationList: [],
 }
 
 export const userSlice = createSlice({
@@ -17,22 +21,26 @@ export const userSlice = createSlice({
     setLogout: (state) => {
       state.user = null
       state.token = null
+      state.tripList = []
+      state.wishList = []
+      state.propertyList = []
+      state.reservationList = []
     },
 
     setTripList: (state, action) => {
-      state.user.tripList = action.payload
+      state.tripList = action.payload
     },
 
     setWishList: (state, action) => {
-      state.user.wishList = action.payload
+      state.wishList = action.payload
     },
 
     setPropertyList: (state, action) => {
-      state.user.propertyList = action.payload
+      state.propertyList = action.payload
     },
 
     setReservationList: (state, action) => {
-      state.user.reservationList = action.payload
+      state.reservationList = action.payload
     },
   },
 })

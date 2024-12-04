@@ -3,6 +3,11 @@ import dotenv from "dotenv"
 import cors from "cors"
 import mongoose from "mongoose"
 
+import authRoutes from "./routes/auth.route.js"
+import listingRoutes from "./routes/listing.route.js"
+import bookingRoutes from "./routes/booking.route.js"
+import userRoutes from "./routes/user.route.js"
+
 dotenv.config()
 
 mongoose
@@ -18,17 +23,16 @@ const app = express()
 
 // to make input as json
 app.use(express.json())
-app.use(cors())
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true
+}))
 app.use(express.static("public"))
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000")
 })
 
-import authRoutes from "./routes/auth.route.js"
-import listingRoutes from "./routes/listing.route.js"
-import bookingRoutes from "./routes/booking.route.js"
-import userRoutes from "./routes/user.route.js"
 
 app.use("/api/auth", authRoutes)
 app.use("/api/listing", listingRoutes)

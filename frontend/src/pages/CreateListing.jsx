@@ -126,10 +126,10 @@ const CreateListing = () => {
       })
 
       if (res.ok) {
-        console.log("Data created successfully")
+        alert("Data created successfully")
         navigate("/")
       }
-    } catch (error) {
+          } catch (error) {
       console.log(error)
     }
   }

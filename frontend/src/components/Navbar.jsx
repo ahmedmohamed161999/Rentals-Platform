@@ -7,22 +7,23 @@ import { setLogout } from "../redux/slice/userSlice"
 
 const Navbar = () => {
   const user = useSelector((state) => state.user)
-  // console.log(user)
-
-  const [dropdownMenu, setDropdownMenu] = useState(false)
-
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const [search, setSearch] = useState("")
+  const [dropdownMenu, setDropdownMenu] = useState(false)
 
-  const navigate = useNavigate()
+  const handleLogout = () => {
+    dispatch(setLogout())
+    navigate("/")
+  }
 
   return (
     <div className="py-[10px] sm:py-[10px] px-[20px] sm:px-[60px] flex justify-between items-center relative ">
       <Link to={"/"}>
         <h1 className="text-slate-500 text-3xl font-bold">
           Rent
-          <span className="text-slate-900">Rite</span>
+          <span className="text-slate-900">Like</span>
         </h1>
       </Link>
 
@@ -44,7 +45,7 @@ const Navbar = () => {
       </div>
 
       <div className="flex items-center gap-5">
-        {user ? (
+        {user.user ? (
           <Link
             to={"/create-listing"}
             className="hidden sm:block no-underline text-slate-500 font-bold cursor-pointer hover:text-blue-500"
@@ -68,6 +69,7 @@ const Navbar = () => {
 
           {!user.user ? (
             <FaUser className="text-slate-600" />
+            
           ) : (
             <img
               src={`http://localhost:3000/${user.user?.profileImagePath.replace(
@@ -80,14 +82,14 @@ const Navbar = () => {
           )}
         </button>
 
-        {dropdownMenu && !user && (
+        {dropdownMenu && !user.user && (
           <div className="absolute bg-white right-15 sm:right-5 top-20 flex flex-col w-48 p-2.5 border border-gray-300 rounded-2xl shadow-lg z-[999]">
-            <Link to={"/login"}>Log In</Link>
-            <Link to={"/register"}>Register</Link>
+            <Link to={"/login"} className="w-full px-4 py-2 text-slate-500 no-underline font-bold hover:text-blue-500">Log In</Link>
+            <Link to={"/register"} className="w-full px-4 py-2 text-slate-500 no-underline font-bold hover:text-blue-500">Register</Link>
           </div>
         )}
 
-        {dropdownMenu && user && (
+        {dropdownMenu && user.user && (
           <div className="absolute bg-white right-15 sm:right-5 top-20 flex flex-col w-48 p-2.5 border border-gray-300 rounded-2xl shadow-lg z-[999]">
             <Link
               to={`/${user?.user?._id}/trips`}
@@ -124,13 +126,12 @@ const Navbar = () => {
               Become A Host
             </Link>
 
-            <Link
-              to={"/login"}
-              className="w-full px-4 py-2 text-slate-500 no-underline font-bold hover:text-blue-500"
-              onClick={() => dispatch(setLogout())}
+            <div
+              className="w-full px-4 py-2 text-slate-500 no-underline font-bold hover:text-blue-500 cursor-pointer"
+              onClick={handleLogout}
             >
               Log Out
-            </Link>
+            </div>
           </div>
         )}
       </div>

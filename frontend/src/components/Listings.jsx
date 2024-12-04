@@ -3,11 +3,12 @@ import { categories } from "../data"
 import { useDispatch, useSelector } from "react-redux"
 import { setListings } from "../redux/slice/listingSlice"
 import ListingCard from "./ListingCard"
+import { motion } from "framer-motion"
 
 const Listings = () => {
   const [selectedCategory, setSelectedCategory] = useState("All")
 
-  const listings = useSelector((state) => state?.listings?.listings)
+  const listings = useSelector((state) => state?.listings?.listings) || []
 
   // console.log(listings)
 
@@ -46,8 +47,13 @@ const Listings = () => {
     <>
       <div className="px-20 py-12 md:px-5 flex justify-center flex-wrap gap-14">
         {categories.map((category, index) => (
-          <div
-            className={`flex flex-col items-center text-slate-900 cursor-pointer `}
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            whileInView={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            className={`flex flex-col items-center text-slate-900 cursor-pointer ${
+              category.label === selectedCategory ? "shadow-lg" : ""
+            }`}
             key={index}
             onClick={() => setSelectedCategory(category.label)}
           >
@@ -59,20 +65,23 @@ const Listings = () => {
               {category.icon}
             </div>
 
-            <p
+            <motion.p
+              initial={{ y: 10, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
               className={`text-lg font-bold ${
                 category.label === selectedCategory ? "text-red-500" : ""
               }`}
             >
               {category.label}
-            </p>
-          </div>
+            </motion.p>
+          </motion.div>
         ))}
       </div>
 
       <div className="px-12 pb-32 lg:px-5 flex flex-wrap justify-center gap-5">
-        {listings.length > 0 &&
-          listings.map(
+        {listings?.length > 0 &&
+          listings?.map(
             ({
               _id,
               creator,
@@ -86,6 +95,7 @@ const Listings = () => {
               booking = false,
             }) => (
               <ListingCard
+                key={_id}
                 listingId={_id}
                 creator={creator}
                 listingPhotoPaths={listingPhotoPaths}

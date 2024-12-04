@@ -13,6 +13,11 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
+    if (!email || !password) {
+      alert("Please enter your email and password")
+      return
+    }
+
     try {
       const response = await fetch("http://localhost:3000/api/auth/login", {
         method: "POST",
@@ -24,18 +29,20 @@ const LoginPage = () => {
 
       const data = await response.json()
 
-      if (data) {
+      if (response.ok) {
         dispatch(
           setLogin({
             user: data.rest,
             token: data.token,
           })
         )
-
         navigate("/")
+      } else {
+        alert(data.message || "Invalid email or password")
       }
     } catch (error) {
-      console.log(error.message)
+      console.error("Login error:", error)
+      alert("An error occurred during login. Please try again.")
     }
   }
 
