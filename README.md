@@ -2,7 +2,7 @@
 
 A full-stack property rental platform built with React, Node.js, and MongoDB.
 
-![RentLike Screenshot](screenshot.PNG)
+![RentLike Screenshot](frontend/public/screenshot.PNG)
 
 ## Features
 
