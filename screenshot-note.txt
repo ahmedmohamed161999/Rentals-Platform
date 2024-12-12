@@ -1,1 +1,0 @@
-Please add a screenshot of your application named 'screenshot.PNG' in the root directory before pushing to GitHub. The screenshot should show the main features of your rental platform.
